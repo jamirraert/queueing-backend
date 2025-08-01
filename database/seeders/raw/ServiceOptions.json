@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Pharmacy",
+        "letter": "PH",
+        "start_number": 500,
+        "status": 1
+    },
+    {
+        "name": "Registration",
+        "letter": "R",
+        "start_number": 1,
+        "status": 1
+    }
+]
