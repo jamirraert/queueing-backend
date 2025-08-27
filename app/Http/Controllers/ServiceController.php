@@ -17,7 +17,7 @@ class ServiceController extends Controller
     {
         try {
 
-            $service = DB::transaction(fn () => Service::where('status', 1)->get());
+            $service = DB::transaction(fn () => Service::where('status', '1')->get());
 
             return $this->jsonResponse([
                 'message' => 'Successfully fetched data',

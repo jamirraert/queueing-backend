@@ -33,6 +33,28 @@ return new class extends Migration
                 ->default('1');
             $table->timestamps();
         });
+
+        Schema::create('tellers', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('counter_id');
+            $table->unsignedBigInteger('service_id');
+
+            $table->foreign('user_id')
+                ->references('id')
+                ->on('users')
+                ->onDelete('cascade');
+            $table->foreign('counter_id')
+                ->references('id')
+                ->on('counters')
+                ->onDelete('cascade');
+            $table->foreign('service_id')
+                ->references('id')
+                ->on('services')
+                ->onDelete('cascade');
+
+            $table->timestamps();
+        });
     }
 
     /**

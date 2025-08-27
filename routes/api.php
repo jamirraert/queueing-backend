@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CounterController;
+use App\Http\Controllers\QueueEntryController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\TellerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +53,21 @@ Route::middleware('auth:sanctum')->group(function() {
     });
 
     /**
-     * @return {}
+     * @return { App\Models\Teller }
      */
+    Route::controller(TellerController::class)->prefix('/teller')->name('teller.')->group(function() {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+        Route::get('/{id}', 'show')->name('show');
+        Route::patch('/{id}', 'update')->name('update');
+        Route::delete('/{id}', 'destroy')->name('destroy');
+    });
+
+    /**
+     * @return { App\Models\QueueEntry }
+     */
+    Route::controller(QueueEntryController::class)->prefix('/queue')->name('queue.')->group(function() {
+        Route::get('/', 'index')->name('index');
+        Route::post('/', 'store')->name('store');
+    });
 });

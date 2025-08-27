@@ -16,20 +16,16 @@ class CounterController extends Controller
     {
         try {
 
-            $counter = DB::transaction(function () {
-                $counter = Counter::where('status', 1)->get();
-
-                return $counter;
-            });
+            $counter = DB::transaction(fn () => Counter::where('status', '1')->get());
 
             return $this->jsonResponse([
                 'message' => 'Successfully fetched counters',
                 'data' => $counter->toArray()
             ], 200);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $status = $e->getCode() === 404 ? 404 : 500;
-            $this->jsonResponse([
+            return $this->jsonResponse([
                 'success' => false,
                 'message' => 'Something went wrong., ' . $e->getMessage()
             ], $status);

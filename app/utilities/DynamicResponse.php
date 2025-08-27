@@ -6,8 +6,29 @@ use Illuminate\Http\JsonResponse;
 
 class DynamicResponse
 {
-    protected function jsonResponse(array $data = [], int $status = 200):JsonResponse
+    protected ?string $errorMessage;
+    protected ?int $statusCode;
+
+    public function __construct()
     {
+       $this->errorMessage = null; 
+       $this->statusCode = null;
+    }
+    protected function jsonResponse(?array $data = null, int $status = 200):JsonResponse
+    {
+        /**
+         * @return {500} status
+         */
+        if($data === null) {
+            $errorMessage = $this->errorMessage !== null ? $this->errorMessage : null; 
+            $message = 'Something went wrong.';
+            return response()->json([
+                'success' => false,
+                'message' => $message . ' ' . $errorMessage
+            ], $this->statusCode);
+        }
+
+
         $response['success'] = $data['success'] ?? true;
 
         if(isset($data['message'])) {
@@ -23,5 +44,11 @@ class DynamicResponse
         }
 
         return response()->json($response, $status);
+    }
+
+    public function setErrorMessage(string $errorMessage, int $statusCode = 500)
+    {
+        $this->statusCode = $statusCode === 404 ? 404 : 500;
+        $this->errorMessage = $errorMessage;
     }
 }
